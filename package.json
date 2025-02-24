@@ -1,0 +1,18 @@
+{
+    "name": "deploy-coolify",
+    "version": "1.0.1",
+    "description": "GitHub Action to deploy an application via API",
+    "main": "index.js",
+    "scripts": {
+      "build": "ncc build index.js -o dist",
+      "prepare": "npm run build"
+    },
+    "dependencies": {
+      "@actions/core": "^1.10.0",
+      "node-fetch": "^2.6.7"
+    },
+    "devDependencies": {
+      "@vercel/ncc": "^0.36.1"
+    }
+  }
+  
