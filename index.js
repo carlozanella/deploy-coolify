@@ -10,7 +10,7 @@ async function run() {
     const imageTag = core.getInput("image_tag");
 
     const updateUrl = `${endpoint}/applications/${appUuid}`;
-    const restartUrl = `${endpoint}/applications/${appUuid}/restart`;
+    const deployUrl = `${endpoint}/deploy?uuid=${appUuid}`;
 
     if (imageName && imageName.trim() && imageTag && imageTag.trim()) {
       console.log(`Updating application ${appUuid} with new image ${imageName}:${imageTag}...`);
@@ -34,9 +34,9 @@ async function run() {
       console.log("Skipping image update because image name or tag is missing.");
     }
 
-    console.log(`Restarting application ${appUuid}...`);
+    console.log(`Deploying application ${appUuid}...`);
 
-    const restartResponse = await fetch(restartUrl, {
+    const restartResponse = await fetch(deployUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,5 +1,5 @@
 name: "Deploy Coolify Application"
-description: "Updates the Docker image of an application and restarts it."
+description: "Updates the Docker image configuration of an application and redeploys it."
 author: "Carlo Zanella"
 
 inputs:
