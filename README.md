@@ -26,6 +26,19 @@ Add this action to your workflow:
     app_uuid: ${{ secrets.COOLIFY_APP_UUID }}
 ```
 
+Optionally, configure the application to use a new docker image:
+```yaml
+- name: Deploy to Coolify
+  uses: carlozanella/deploy-coolify@v1
+  with:
+    endpoint: ${{ secrets.COOLIFY_ENDPOINT }}
+    token: ${{ secrets.COOLIFY_TOKEN }}
+    app_uuid: ${{ secrets.COOLIFY_APP_UUID }}
+    image_name: 'my-repository/my-image'
+    image_tag: ${{ github.run_number }}
+```
+This allows to deploy a specific version of an application and allows to easily roll back to a previous image in case of problems.
+
 ## Inputs
 
 | Name | Required | Description |
@@ -53,7 +66,7 @@ jobs:
       - name: Deploy to Coolify
         uses: carlozanella/deploy-coolify@v1
         with:
-          endpoint: 'https://coolify.example.com/api/v1'
+          endpoint: ${{ secrets.COOLIFY_ENDPOINT }}
           token: ${{ secrets.COOLIFY_TOKEN }}
           app_uuid: ${{ secrets.COOLIFY_APP_UUID }}
           image_name: 'my-repository/my-image'
