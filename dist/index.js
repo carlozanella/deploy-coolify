@@ -31546,33 +31546,37 @@ async function run() {
     const endpoint = core.getInput("endpoint", { required: true });
     const token = core.getInput("token", { required: true });
     const appUuid = core.getInput("app_uuid", { required: true });
-    const imageName = core.getInput("image_name", { required: true });
-    const imageTag = core.getInput("image_tag", { required: true });
+    const imageName = core.getInput("image_name");
+    const imageTag = core.getInput("image_tag");
 
     const updateUrl = `${endpoint}/applications/${appUuid}`;
-    const restartUrl = `${endpoint}/applications/${appUuid}/restart`;
+    const deployUrl = `${endpoint}/deploy?uuid=${appUuid}`;
 
-    console.log(`Updating application ${appUuid} with new image ${imageName}:${imageTag}...`);
+    if (imageName && imageName.trim() && imageTag && imageTag.trim()) {
+      console.log(`Updating application ${appUuid} with new image ${imageName}:${imageTag}...`);
 
-    const updateResponse = await fetch(updateUrl, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        docker_registry_image_name: imageName,
-        docker_registry_image_tag: imageTag,
-      }),
-    });
+      const updateResponse = await fetch(updateUrl, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          docker_registry_image_name: imageName,
+          docker_registry_image_tag: imageTag,
+        }),
+      });
 
-    if (!updateResponse.ok) {
-      throw new Error(`Failed to update application: ${await updateResponse.text()}`);
+      if (!updateResponse.ok) {
+        throw new Error(`Failed to update application: ${await updateResponse.text()}`);
+      }
+    } else {
+      console.log("Skipping image update because image name or tag is missing.");
     }
 
-    console.log(`Restarting application ${appUuid}...`);
+    console.log(`Deploying application ${appUuid}...`);
 
-    const restartResponse = await fetch(restartUrl, {
+    const restartResponse = await fetch(deployUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
