@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 
 async function run() {
   try {
-    const endpoint = core.getInput("endpoint", { required: true });
+    const endpoint = core.getInput("endpoint", { required: true }).replace(/\/+$/, '');
     const token = core.getInput("token", { required: true });
     const appUuid = core.getInput("app_uuid", { required: true });
     const imageName = core.getInput("image_name");
