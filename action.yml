@@ -19,6 +19,10 @@ inputs:
     description: "Docker Image Tag"
     required: false
 
+branding:
+  icon: "play"
+  color: "purple"
+
 runs:
   using: "node20"
   main: "dist/index.js"
